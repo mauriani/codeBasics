@@ -1,21 +1,14 @@
 from datetime import datetime
 from flask import Flask
+from flask import Flask, redirect, url_for, request
 from flask_json import FlaskJSON, JsonError, json_response, as_json
-from flask_cors import CORS
 
 app = Flask(__name__)
-app.run(debug=True)
-CORS(app)
-
 FlaskJSON(app)
-
-with open('tasks.json', 'r') as myfile:
-    data=myfile.read()
-# parse file
 
 @app.route('/get_time')
 def get_time():
-    return json_response(data)
+    return json_response(time=datetime.utcnow())
 
 
 @app.route('/get_time_and_value')
@@ -28,6 +21,20 @@ def get_time_and_value():
 def raise_error():
     raise JsonError(description='Example text.', code=123)
 
+
+@app.route('/success/<name>')
+def success(name):
+   return 'welcome %s' % name
+
+
+@app.route('/search',methods = ['GET'])
+def search():
+  data = request.json
+  ## pegando cada campo data["name"]
+  return data
+
+if __name__ == '__main__':
+   app.run(debug = True)
 
 if __name__ == '__main__':
     app.run()
