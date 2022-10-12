@@ -43,19 +43,20 @@ def success(name):
 async def search():
     db = Prisma(auto_register=True)
     await db.connect()
+
     data = request.json
     ## pegando cada campo data["name"]
     await asyncio.sleep(2)
 
     # write your queries here
-    user = await User.prisma().create(
+    user = await db.user.create(
         data={
-            'name': 'Robert',
-            'email': 'opa@craigie.dev'
-        },
+            'name': data['name'],
+            'email': data['email'],
+            },
     )
 
-    return 'hello word'
+    return 'user'
 
 if __name__ == '__main__':
    app.run(debug = True)
