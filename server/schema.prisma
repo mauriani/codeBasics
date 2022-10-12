@@ -1,7 +1,7 @@
 datasource db {
   // could be postgresql or mysql
   provider = "sqlite"
-  url      = "file:dev.db"
+  url      = "file:database.db"
 }
 
 generator db {
@@ -10,11 +10,20 @@ generator db {
   recursive_type_depth = 5
 }
 
+model User {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  email     String   @unique
+  name      String?
+  posts     Post[]
+}
+
 model Post {
-  id         String   @id @default(cuid())
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
-  title      String
-  published  Boolean
-  desc       String?
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  published Boolean  @default(false)
+  title     String
+  author    User     @relation(fields: [authorId], references: [id])
+  authorId  Int
 }
