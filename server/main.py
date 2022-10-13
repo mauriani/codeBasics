@@ -8,7 +8,7 @@ app.config['JSON_SORT_KEYS'] = False
 def db_connection():
     conn = None
     try:
-        conn = sqlite3.connect('code.sqlite')
+        conn = sqlite3.connect('bd.sqlite')
     except sqlite3.error as e:
         print(e)
     return conn
@@ -16,10 +16,9 @@ def db_connection():
 
 
 @app.route('/groups', methods=['POST'])
-def get_groups():
-
-        conn = db_connection()
-
+def create_groups():
+    conn = db_connection()
+    try:
         data = request.json
 
         conn.execute(""" INSERT INTO groups(title, description, linkDiscord) VALUES (?, ?, ?)""", (
@@ -30,8 +29,31 @@ def get_groups():
 
         return make_response(
             jsonify(
-                message='Carro cadastrado com sucesso',
+                message='Grupo cadastrado com sucesso',
             )
         )
+    except:
+        return make_response(
+            jsonify(
+                message='Grupo com esse assunto já existe',
+            )
+        )
+    finally:
+        conn.close()
+
+
+@app.route('/groups', methods=['GET'])
+def get_groups():
+    conn = db_connection()
+    rows = conn.execute("SELECT * FROM groups").fetchone()
+    
+    #convert row objects to dictionary
+
+    return make_response(
+        jsonify(
+            data=rows
+        )
+    )
+
 
 app.run()

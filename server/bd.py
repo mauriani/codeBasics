@@ -1,6 +1,6 @@
 import sqlite3
 
-conn = sqlite3.connect('code.sqlite')
+conn = sqlite3.connect('bd.sqlite')
 
 cursor = conn.cursor()
 
@@ -28,34 +28,3 @@ cursor.execute(sql_query_group)
 
 print('Tabela criada com sucesso.')
 
-
-
-# Groups = [
-#   {
-#     "Title": "Desenvolvimento web",
-#     "Description": "Nesse grupo iremos abordar temas como html, css e javascript",
-#     "linkDiscord": '',
-#     "Participants": [{
-#       "name": "Mauriani",
-#       "ranking": 5.4
-#     }]
-#   },
-#   {
-#     "Title": "SQL",
-#     "Description": "Nesse grupo iremos abordar temas como html, css e javascript",
-#     "linkDiscord": '',
-#     "Participants": [{
-#       "name": "Mauriani",
-#       "ranking": 5.4
-#     }]
-#   },
-#   {
-#     "Title": "React",
-#     "Description": "Nesse grupo iremos abordar temas como html, css e javascript",
-#     "linkDiscord": '',
-#     "Participants": [{
-#       "name": "Mauriani",
-#       "ranking": 5.4
-#     }]
-#   },
-# ]
