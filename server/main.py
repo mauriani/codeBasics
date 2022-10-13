@@ -45,7 +45,7 @@ def create_groups():
 @app.route('/groups', methods=['GET'])
 def get_groups():
     conn = db_connection()
-    rows = conn.execute("SELECT * FROM groups").fetchone()
+    rows = conn.execute("SELECT * FROM groups").fetchall()
     
     #convert row objects to dictionary
 
