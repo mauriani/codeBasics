@@ -1,65 +1,31 @@
-from datetime import datetime
-from functools import wraps
-from flask import Flask
-from flask import Flask, redirect, url_for, request
-from flask_json import FlaskJSON, JsonError, json_response, as_json
-
-import asyncio
-from prisma import Prisma
-from prisma.models import User
-
-def async_action(f):
-    @wraps(f)
-    def wrapped(*args, **kwargs):
-        return asyncio.run(f(*args, **kwargs))
-    return wrapped
+from bd import Groups
+from flask import Flask, make_response, jsonify, request
 
 app = Flask(__name__)
-FlaskJSON(app)
-
-@app.route('/get_time')
-def get_time():
-    return json_response(time=datetime.utcnow())
+app.config['JSON_SORT_KEYS'] = False
 
 
-@app.route('/get_time_and_value')
-@as_json
-def get_time_and_value():
-    return dict(time=datetime.utcnow(), value=12)
-
-
-@app.route('/raise_error')
-def raise_error():
-    raise JsonError(description='Example text.', code=123)
-
-
-@app.route('/success/<name>')
-def success(name):
-   return 'welcome %s' % name
-
-
-@app.route('/search',methods = ['POST'])
-@async_action
-async def search():
-    db = Prisma(auto_register=True)
-    await db.connect()
-
-    data = request.json
-    ## pegando cada campo data["name"]
-    await asyncio.sleep(2)
-
-    # write your queries here
-    user = await db.user.create(
-        data={
-            'name': data['name'],
-            'email': data['email'],
-            },
+@app.route('/groups', methods=['GET'])
+def get_carros():
+    return make_response(
+        jsonify(
+            data=Groups
+        )
     )
 
-    return 'user'
 
-if __name__ == '__main__':
-   app.run(debug = True)
+@app.route('/groups', methods=['POST'])
+def create_carros():
+    groups = request.json
 
-if __name__ == '__main__':
-    app.run()
+    Groups.append(groups)
+
+    return make_response(
+        jsonify(
+            message= "Grupo cadastrado com sucesso",
+            data=groups
+        )
+    )
+
+
+app.run()
