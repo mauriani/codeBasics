@@ -62,3 +62,7 @@ Python bd.py
 ```
 
 Dessa forma ele vai gerar um arquivo na raiz do projeto
+
+tutorial sqlite
+
+https://www.tutorialspoint.com/python_data_access/python_sqlite_introduction.htm
