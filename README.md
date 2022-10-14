@@ -1,43 +1,13 @@
-# curses
+## Requisitos
+
+- [] Deve ser possível criar uma conta
+- [] Deve ser possível visualizar todos os grupos
+- [] Deve ser possível cadastrar-se em um grupo determinado
+- [] Qualquer usuário pode criar um grupo
+- [] o usuário pode classificar outro usuário
 
 
-### Install virtualven
+## Regras de negócio
 
-```tsx
-  pip install virtualenv
-
-  /*Instanciando*/
-
-  virtualenv venv
-
-  /*Iniciando - windows*/
-
-  venv\scripts\activate
-
-```
-
-
-### Install Prisma
-
-```python
-pip install prisma
-
-/*Instalando o Prisma Client Python*/
-
-pip install -U prisma
-
-/*Gerando Prisma Client Python*/
-
-
-
-/*Install Flask*/
-
-pip install Flask
-
-
-/*Dependencias - gerando arquivo requirements.txt*/
-
-- https://pythonhelp.wordpress.com/tag/dependencias/
-
-
-```
+- [] Não deve ser possível cadastrar um conta com Email já existente
+- [] Não deve ser possível cadastrar um grupo com o mesmo titulo existente
