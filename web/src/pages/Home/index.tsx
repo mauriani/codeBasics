@@ -40,16 +40,11 @@ export function Home() {
       </h1>
 
       <div className="grid grid-cols-6 gap-6 mt-16">
-        {games.map((game) => {
-          return (
-            <GroupBanner
-              key={game.id}
-              title={game.title}
-              adsCount={game._count.ads}
-              bannerUrl={game.bannerUrl}
-            />
-          );
-        })}
+        <GroupBanner
+          title="React native com typescript"
+          description="Lorem ipsum dolor sit amet, consectetur adip, Lorem ipsum dolor sit amet, consectetur adip, Lorem ipsum dolor sit amet, consectetur adip,"
+          bannerUrl="https://avatars.githubusercontent.com/u/59673868?v=4"
+        />
       </div>
       <Dialog.Root>
         <CreateBanner />

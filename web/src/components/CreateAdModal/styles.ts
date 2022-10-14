@@ -10,10 +10,7 @@ export const Container = styled(Dialog.Portal)`
 `;
 
 export const Overlay = styled(Dialog.Overlay)`
-  width: 100%;
-  height: 100%;
-  background-color: #f2f3f5;
-  background-color: rgba(255, 255, 255, 0.6);
+  background-color: rgba(0, 0, 0, 0.6);
   position: fixed;
 
   inset: 0;
@@ -26,8 +23,8 @@ export const ModalContent = styled(Dialog.Content)`
   width: 480px;
   padding: 2rem 2.5rem;
   color: ${theme.colors.white};
-  top: 50%;
-  left: 32%;
+  left: 50%;
+  transform: translateX(-50%);
   transform: translateY(-50%);
 
   form {
@@ -36,6 +33,8 @@ export const ModalContent = styled(Dialog.Content)`
     gap: 1rem;
 
     label {
+      display: flex;
+      align-items: center;
       margin-top: 8px;
       display: flex;
       gap: 8px;
