@@ -1,6 +1,6 @@
 import { FormEvent, useEffect, useState } from "react";
 import { Check, GameController } from "phosphor-react";
-import { useForm } from "react-hook-form";
+import { useForm, SubmitHandler } from "react-hook-form";
 import { Input } from "../Input";
 import axios from "axios";
 
@@ -23,47 +23,46 @@ import {
   CloseModal,
 } from "./styles";
 import { theme } from "../../styles/theme";
+import { api } from "../../services/apit";
 
-interface GameProps {
+interface GroupProps {
   id: string;
   title: string;
+  description: string;
+  ranking: number;
+  discord: string;
+  hourStart: number;
+  hourEnd: number;
 }
 
 export function CreateAdModal() {
-  const [games, setGames] = useState<GameProps[]>([]);
+  const [games, setGames] = useState<GroupProps[]>([]);
   const [weekDays, setWeekDays] = useState<string[]>([""]);
-  const [useVoiceChannel, setUseVoiceChannel] = useState(false);
 
-  const { handleSubmit, register } = useForm();
+  const { handleSubmit, register } = useForm<GroupProps>();
 
-  async function handleCreateAd(e: FormEvent) {
-    e.preventDefault();
-
-    const formData = new FormData(e.target as HTMLFormElement);
-    const data = Object.fromEntries(formData);
-
-    if (!data.name) {
-      return;
-    }
-
+  async function handleCreateAd(data: GroupProps) {
     try {
-      await axios.post(`http://localhost:3333/games/${data.game}/ads`, {
-        name: data.name,
-        yearsPlaying: Number(data.yearsPlaying),
-        discord: data.discord,
-        weekDays: weekDays.map(Number),
-        hourStart: data.hourStart,
-        hourEnd: data.hourEnd,
-        useVoiceChannel: useVoiceChannel,
+      await api.post("/grupo", {
+        id: 1,
+        title: data.title,
+        descricao: data.description,
+        minUserRanking: data.ranking,
+        daysOfWeek: weekDays.map(Number),
+        horaInicio: data.hourStart,
+        horaFim: data.hourEnd,
+        discordLink: data.discord,
+        dataCriacao: new Date(),
+        user_id: 1,
       });
-      alert("Anuncio criado com sucesso!");
+      alert("Grupo criado com sucesso!");
     } catch {
-      alert("Erro ao criar anuncio!");
+      alert("Erro ao criar grupo!");
     }
   }
 
   useEffect(() => {
-    axios("http://localhost:3333/games").then((response) => {
+    api.post("/").then((response) => {
       setGames(response.data);
     });
   }, []);
@@ -79,7 +78,7 @@ export function CreateAdModal() {
             <label htmlFor="subject">
               Qual sera o assunto chave dessa sala?
             </label>
-            <Input placeholder="Titulo do anuncio" {...register("subject")} />
+            <Input placeholder="Titulo do anuncio" {...register("title")} />
           </Subject>
 
           <Description>
@@ -196,20 +195,6 @@ export function CreateAdModal() {
               </div>
             </Hours>
           </DaysOfWeek>
-
-          <label>
-            <CheckBox
-              checked={useVoiceChannel}
-              onCheckedChange={(checked) =>
-                checked ? setUseVoiceChannel(true) : setUseVoiceChannel(false)
-              }
-            >
-              <CheckBoxIndicator>
-                <Check size={16} color={theme.colors.yellow} />
-              </CheckBoxIndicator>
-            </CheckBox>
-            Costumo me conectar no chat de voz
-          </label>
 
           <Butttons>
             <CloseModal

@@ -3,10 +3,11 @@ import { theme } from "../../styles/theme";
 
 export const Container = styled.button`
   display: flex;
+  flex-shrink: 1;
   flex-direction: column;
   padding: 1rem;
-  width: 50rem;
-  height: 14rem;
+  max-width: 50rem;
+  height: auto;
   background: ${theme.colors.base_card};
   border: 2px solid ${theme.colors.base_card};
   border-radius: 6px;
