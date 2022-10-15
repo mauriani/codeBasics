@@ -1,7 +1,8 @@
 import { useState, useEffect, FormEvent } from "react";
 import * as Yup from "yup";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { CaretLeft } from "phosphor-react";
 import { Link, useNavigate } from "react-router-dom";
 
 import { Input } from "../../components/Input";
@@ -19,36 +20,49 @@ interface Iuser {
 export function SignUp() {
   const navigate = useNavigate();
 
-  const [users, setUsers] = useState<Iuser[]>([]);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   async function handleSignUp(e: FormEvent) {
     e.preventDefault();
+
     try {
-      console.log("opa");
       const schema = Yup.object().shape({
-        name: Yup.string()
-          .required("E-mail obrigatório")
-          .email("Digite um e-mail válido"),
+        password: Yup.string()
+          .required("Senha é obrigatório")
+          .min(8, "Mínimo seis caracteres"),
         email: Yup.string()
           .required("E-mail obrigatório")
           .email("Digite um e-mail válido"),
-        password: Yup.string().min(8, "Mínimo seis caracteres"),
+        name: Yup.string().required("Nome obrigatório"),
       });
 
-      await schema.validate({ email, password });
+      await schema.validate({ name, email, password });
+
+      console.log("opa");
 
       const response = await api.post("/sign-up", {
+        nome: name,
         email: email,
         senha: password,
-        nome: name,
       });
 
-      navigate("/");
+      const { status, message } = response.data;
 
-      // console.log(response.data);
+      if (status == 200) {
+        toast.success(message, {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+        navigate("/");
+      } else {
+        toast.error(message, {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+        return;
+      }
+
+      console.log(response.data);
     } catch (error) {
       if (error instanceof Yup.ValidationError) {
         toast.error(error.message, {
@@ -83,10 +97,11 @@ export function SignUp() {
 
             <Input
               name="name"
-              placeholder="Nome"
+              placeholder="nome"
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
+
             <Input
               name="email"
               placeholder="E-mail"
@@ -104,6 +119,11 @@ export function SignUp() {
             <button type="submit">Cadastrar</button>
           </form>
         </div>
+
+        <Link to="/signin">
+          <CaretLeft size={32} />
+          Voltar para Login
+        </Link>
       </Content>
     </Container>
   );
