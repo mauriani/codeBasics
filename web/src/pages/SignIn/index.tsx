@@ -1,6 +1,7 @@
 import { useState, useEffect, FormEvent } from "react";
 import * as Yup from "yup";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { Link, useNavigate } from "react-router-dom";
 
 import { Input } from "../../components/Input";
@@ -45,9 +46,16 @@ export function SignIn() {
       // console.log(response.data);
     } catch (error) {
       if (error instanceof Yup.ValidationError) {
-        toast.warn(error.message);
+        toast.error(error.message, {
+          position: toast.POSITION.TOP_RIGHT,
+        });
       } else {
-        toast.error("Ocorreu um erro ao fazer login, verifique as credenciais");
+        toast.error(
+          "Ocorreu um erro ao fazer login, verifique as credenciais",
+          {
+            position: toast.POSITION.TOP_RIGHT,
+          }
+        );
       }
     }
   }
