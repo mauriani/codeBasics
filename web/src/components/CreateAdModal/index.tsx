@@ -23,7 +23,7 @@ import {
   CloseModal,
 } from "./styles";
 import { theme } from "../../styles/theme";
-import { api } from "../../services/apit";
+import { api } from "../../services/api";
 
 interface GroupProps {
   id: string;

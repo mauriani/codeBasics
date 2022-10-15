@@ -1,12 +1,11 @@
-from flask import Blueprint, render_template, request, flash, redirect, url_for, make_response, jsonify
-from .models import User
+from flask import Blueprint, request, make_response, jsonify
+from server.models import User
 from werkzeug.security import generate_password_hash, check_password_hash
-from . import db
-from .query import getUserByEmail, getUserById
-from .custom_exception import CustomError
+from server import db
+from server.query import getUserByEmail
+from server.custom_exception import CustomError
 
 auth = Blueprint('auth', __name__)
-
 
 @auth.route('/sign-up', methods=['POST'])
 def sign_up():
