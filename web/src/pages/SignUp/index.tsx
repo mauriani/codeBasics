@@ -49,12 +49,11 @@ export function SignUp() {
       });
 
       const { status, message } = response.data;
-
       if (status == 200) {
         toast.success(message, {
           position: toast.POSITION.TOP_RIGHT,
         });
-        navigate("/");
+        navigate("/dashboard");
       } else {
         toast.error(message, {
           position: toast.POSITION.TOP_RIGHT,

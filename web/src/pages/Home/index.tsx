@@ -10,23 +10,23 @@ import { CreateAdModal } from "../../components/CreateAdModal";
 import { Header } from "../../components/Header";
 import { Container } from "./styles";
 
-interface GameProps {
-  id: string;
-  title: string;
-  bannerUrl: string;
-  _count: {
-    ads: number;
-  };
-}
+// interface GameProps {
+//   id: string;
+//   title: string;
+//   bannerUrl: string;
+//   _count: {
+//     ads: number;
+//   };
+// }
 
 export function Home() {
-  const [games, setGames] = useState<GameProps[]>([]);
+  const [games, setGames] = useState<[]>([]);
 
-  useEffect(() => {
-    axios("http://localhost:3333/games").then((response) => {
-      setGames(response.data);
-    });
-  }, []);
+  // useEffect(() => {
+  //   axios("http://localhost:3333/games").then((response) => {
+  //     setGames(response.data);
+  //   });
+  // }, []);
 
   return (
     <Container>

@@ -42,29 +42,29 @@ export function CreateAdModal() {
   const { handleSubmit, register } = useForm<GroupProps>();
 
   async function handleCreateAd(data: GroupProps) {
-    try {
-      await api.post("/grupo", {
-        id: 1,
-        title: data.title,
-        descricao: data.description,
-        minUserRanking: data.ranking,
-        daysOfWeek: weekDays.map(Number),
-        horaInicio: data.hourStart,
-        horaFim: data.hourEnd,
-        discordLink: data.discord,
-        dataCriacao: new Date(),
-        user_id: 1,
-      });
-      alert("Grupo criado com sucesso!");
-    } catch {
-      alert("Erro ao criar grupo!");
-    }
+    // try {
+    //   await api.post("/grupo", {
+    //     id: 1,
+    //     title: data.title,
+    //     descricao: data.description,
+    //     minUserRanking: data.ranking,
+    //     daysOfWeek: weekDays.map(Number),
+    //     horaInicio: data.hourStart,
+    //     horaFim: data.hourEnd,
+    //     discordLink: data.discord,
+    //     dataCriacao: new Date(),
+    //     user_id: 1,
+    //   });
+    //   alert("Grupo criado com sucesso!");
+    // } catch {
+    //   alert("Erro ao criar grupo!");
+    // }
   }
 
   useEffect(() => {
-    api.post("/").then((response) => {
-      setGames(response.data);
-    });
+    // api.post("/").then((response) => {
+    //   setGames(response.data);
+    // });
   }, []);
   return (
     <Container>
