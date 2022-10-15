@@ -7,7 +7,7 @@ from .custom_exception import CustomError
 routes = Blueprint('routes', __name__)
 
 
-@routes.route('/grupo', methods=['GET', 'POST'])
+@routes.route('/grupo', methods=['GET', 'POST', 'DELETE'])
 def grupo():
     # CRIA UM GRUPO
     if request.method == 'POST':
@@ -43,10 +43,10 @@ def grupo():
                 )
             )
     # RETORNA UM GRUPO ESPECIFICO
-    else:
+    elif request.method == 'GET':
         try:
             data = request.json
-            grupo_id = data['id']
+            grupo_id = data['grupo_id']
 
             grupo = getGrupoById(grupo_id)
 
@@ -55,7 +55,37 @@ def grupo():
 
             return make_response(
                 jsonify(
-                    grupo=grupo
+                    grupo=grupo,
+                    status=200
+                )
+            )
+
+        except CustomError as error:
+            return make_response(
+                jsonify(
+                    message=error.message,
+                    status=401
+                )
+            )
+
+    # APAGAR UM DETERMINADO GRUPO
+    else:
+        try:
+            data = request.json
+            grupo_id = data['grupo_id']
+
+            grupo = Grupo.query.filter_by(id=grupo_id).first()
+
+            if grupo is None:
+                raise CustomError('Grupo não encontrado', 401)
+
+            db.session.delete(grupo)
+            db.session.commit()
+
+            return make_response(
+                jsonify(
+                    message="Grupo apagado",
+                    status=200
                 )
             )
 
@@ -86,7 +116,7 @@ def grupos():
         )
 
 
-@routes.route('/participante', methods=['POST'])
+@routes.route('/participante', methods=['POST', 'DELETE'])
 def participante():
     # ADICIONAR USUARIO A UM GRUPO
     if request.method == 'POST':
@@ -111,6 +141,44 @@ def participante():
                 )
             else:
                 raise CustomError("Usuário e/ou grupo inválido", 401)
+
+        except CustomError as error:
+            return make_response(
+                jsonify(
+                    message=error.message,
+                    status=error.status
+                )
+            )
+        except:
+            return make_response(
+                jsonify(
+                    message="Algo deu errado",
+                    status=500
+                )
+            )
+    if request.method == 'DELETE':
+        try:
+            data = request.json
+
+            user_id = data['user_id']
+            grupo_id = data['grupo_id']
+
+            user = User.query.filter_by(id=user_id).first()
+            grupo = Grupo.query.filter_by(id=grupo_id).first()
+
+            # Veficando se existe usuário e grupo com os id's informados
+            if user is None or grupo is None:
+                raise CustomError("Usuário e/ou grupo inválidos.", 401)
+
+            user.grupos.remove(grupo)
+            db.session.commit()
+
+            return make_response(
+                jsonify(
+                    message="Usuário removido",
+                    status=200
+                )
+            )
 
         except CustomError as error:
             return make_response(
