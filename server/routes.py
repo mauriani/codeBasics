@@ -86,7 +86,7 @@ def grupos():
         )
 
 
-@routes.route('/participante', methods=['GET', 'POST'])
+@routes.route('/participante', methods=['POST'])
 def participante():
     # ADICIONAR USUARIO A UM GRUPO
     if request.method == 'POST':

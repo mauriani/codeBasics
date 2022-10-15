@@ -1,5 +1,6 @@
 from flask import jsonify
 from flask_sqlalchemy import SQLAlchemy
+
 from .models import User, Grupo
 
 
@@ -7,13 +8,28 @@ def getUserByEmail(email):
     user = User.query.filter_by(email=email).first()
 
     if user:
+        grupos = {}
+
+        for grupo in user.grupos:
+            grupos[grupo.id] = {
+                'id': grupo.id,
+                'titulo': grupo.titulo,
+                'minUserRanking': grupo.minUserRanking,
+                'daysOfWeek': grupo.daysOfWeek,
+                'horaInicio': grupo.horaInicio,
+                'horaFim': grupo.horaFim,
+                'discordLink': grupo.discordLink,
+                'dataCriacao': grupo.dataCriacao,
+                'owner_id': grupo.owner_id,
+            }
+
         usr = {
             'id': user.id,
             'nome': user.nome,
             'email': user.email,
             'senha': user.senha,
             'ranking': user.ranking,
-            'grupos': user.grupos
+            'grupos': grupos
         }
 
         return usr
@@ -40,7 +56,17 @@ def getUserById(id):
 def getGrupoById(id):
     grupo = Grupo.query.filter_by(id=id).first()
 
+    participantes = {}
+
     if grupo:
+        for participante in grupo.participantes:
+            participantes[participante.id] = {
+                'id': participante.id,
+                'nome': participante.nome,
+                'email': participante.email,
+                'ranking': participante.ranking,
+            }
+
         grp = {
             'id': grupo.id,
             'titulo': grupo.titulo,
@@ -51,7 +77,8 @@ def getGrupoById(id):
             'horaFim': grupo.horaFim,
             'discordLink': grupo.discordLink,
             'dataCriacao': grupo.dataCriacao,
-            'owner_id': grupo.owner_id
+            'owner_id': grupo.owner_id,
+            'participantes': participantes
         }
 
         return grp
@@ -66,6 +93,16 @@ def getAllGruposByUser(owner_id):
         grps = {}
 
         for grupo in grupos:
+            participantes = {}
+
+            for participante in grupo.participantes:
+                participantes[participante.id] = {
+                    'id': participante.id,
+                    'nome': participante.nome,
+                    'email': participante.email,
+                    'ranking': participante.ranking,
+                }
+
             grps[grupo.id] = {
                 'id': grupo.id,
                 'titulo': grupo.titulo,
@@ -76,7 +113,8 @@ def getAllGruposByUser(owner_id):
                 'horaFim': grupo.horaFim,
                 'discordLink': grupo.discordLink,
                 'dataCriacao': grupo.dataCriacao,
-                'owner_id': grupo.owner_id
+                'owner_id': grupo.owner_id,
+                'participantes': participantes
             }
 
         return grps
@@ -91,6 +129,16 @@ def getAllGrupos():
         grps = {}
 
         for grupo in grupos:
+            participantes = {}
+
+            for participante in grupo.participantes:
+                participantes[participante.id] = {
+                    'id': participante.id,
+                    'nome': participante.nome,
+                    'email': participante.email,
+                    'ranking': participante.ranking,
+                }
+
             grps[grupo.id] = {
                 'id': grupo.id,
                 'titulo': grupo.titulo,
@@ -101,7 +149,8 @@ def getAllGrupos():
                 'horaFim': grupo.horaFim,
                 'discordLink': grupo.discordLink,
                 'dataCriacao': grupo.dataCriacao,
-                'owner_id': grupo.owner_id
+                'owner_id': grupo.owner_id,
+                'participantes': participantes
             }
 
         return grps
