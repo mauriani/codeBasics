@@ -16,30 +16,35 @@ interface Iuser {
   senha: string;
 }
 
-export function SignIn() {
+export function SignUp() {
   const navigate = useNavigate();
 
   const [users, setUsers] = useState<Iuser[]>([]);
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  async function handleSignIn(e: FormEvent) {
+  async function handleSignUp(e: FormEvent) {
     e.preventDefault();
     try {
       console.log("opa");
       const schema = Yup.object().shape({
-        password: Yup.string().required("A senha é obrigatória"),
+        name: Yup.string()
+          .required("E-mail obrigatório")
+          .email("Digite um e-mail válido"),
         email: Yup.string()
           .required("E-mail obrigatório")
           .email("Digite um e-mail válido"),
+        password: Yup.string().min(8, "Mínimo seis caracteres"),
       });
 
       await schema.validate({ email, password });
 
-      // const response = await api.post("/sign-in", {
-      //   email,
-      //   password,
-      // });
+      const response = await api.post("/sign-up", {
+        email: email,
+        senha: password,
+        nome: name,
+      });
 
       navigate("/");
 
@@ -62,6 +67,10 @@ export function SignIn() {
 
   return (
     <Container>
+      <img
+        src="https://cdn.dribbble.com/users/1206328/screenshots/7943649/_____4x.png"
+        alt=""
+      />
       <Content>
         <div>
           <Logo>
@@ -69,8 +78,15 @@ export function SignIn() {
               <span>codeBasics</span>
             </h1>
           </Logo>
-          <form onSubmit={handleSignIn}>
-            <h1>Faça seu logon</h1>
+          <form onSubmit={handleSignUp}>
+            <h1>Cadastra-se</h1>
+
+            <Input
+              name="name"
+              placeholder="Nome"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
             <Input
               name="email"
               placeholder="E-mail"
@@ -85,15 +101,10 @@ export function SignIn() {
               onChange={(e) => setPassword(e.target.value)}
             />
 
-            <button type="submit">Entrar</button>
+            <button type="submit">Cadastrar</button>
           </form>
         </div>
       </Content>
-
-      <img
-        src="https://cdn.dribbble.com/userupload/3512197/file/original-dd8e590e4245ba420453f432c7880787.jpg?compress=1&resize=752x"
-        alt=""
-      />
     </Container>
   );
 }
