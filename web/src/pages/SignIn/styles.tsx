@@ -68,4 +68,20 @@ export const Content = styled.div`
       }
     }
   }
+
+  > a {
+    color: ${theme.colors.purple_dark};
+    display: block;
+    margin-top: 24px;
+    text-decoration: none;
+    transition: color 0.2s;
+    display: flex;
+    align-items: center;
+    svg {
+      margin-right: 16px;
+    }
+    &:hover {
+      color: ${shade(0.2, theme.colors.purple_dark)};
+    }
+  }
 `;

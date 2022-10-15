@@ -1,6 +1,7 @@
 import { useState, useEffect, FormEvent } from "react";
 import * as Yup from "yup";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
+import { SignIn as IconSignIn } from "phosphor-react";
 import "react-toastify/dist/ReactToastify.css";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -36,14 +37,20 @@ export function SignIn() {
 
       await schema.validate({ email, password });
 
-      // const response = await api.post("/sign-in", {
-      //   email,
-      //   password,
-      // });
+      const response = await api.post("/sign-in", {
+        email: email,
+        senha: password,
+      });
 
-      navigate("/");
+      const { status, message } = response.data;
 
-      // console.log(response.data);
+      if (status != 401) {
+        navigate("/");
+      } else {
+        toast.error(message, {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+      }
     } catch (error) {
       if (error instanceof Yup.ValidationError) {
         toast.error(error.message, {
@@ -88,6 +95,10 @@ export function SignIn() {
             <button type="submit">Entrar</button>
           </form>
         </div>
+        <Link to="/signup">
+          <IconSignIn size={32} />
+          Criar Conta
+        </Link>
       </Content>
 
       <img
