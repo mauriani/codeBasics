@@ -1,6 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, FormEvent } from "react";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
+import { Link, useNavigate } from "react-router-dom";
 
 import { Input } from "../../components/Input";
 import { Container, Content, Logo } from "./styles";
@@ -15,12 +16,16 @@ interface Iuser {
 }
 
 export function SignIn() {
+  const navigate = useNavigate();
+
   const [users, setUsers] = useState<Iuser[]>([]);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  async function signIn() {
+  async function handleSignIn(e: FormEvent) {
+    e.preventDefault();
     try {
+      console.log("opa");
       const schema = Yup.object().shape({
         password: Yup.string().required("A senha é obrigatória"),
         email: Yup.string()
@@ -30,10 +35,17 @@ export function SignIn() {
 
       await schema.validate({ email, password });
 
-      response = await api.post("/api/");
+      // const response = await api.post("/sign-in", {
+      //   email,
+      //   password,
+      // });
+
+      navigate("/");
+
+      // console.log(response.data);
     } catch (error) {
       if (error instanceof Yup.ValidationError) {
-        toast.error(error.message);
+        toast.warn(error.message);
       } else {
         toast.error("Ocorreu um erro ao fazer login, verifique as credenciais");
       }
@@ -49,10 +61,21 @@ export function SignIn() {
               <span>codeBasics</span>
             </h1>
           </Logo>
-          <form action="">
+          <form onClick={(e) => handleSignIn(e)}>
             <h1>Faça seu logon</h1>
-            <Input name="email" placeholder="E-mail" />
-            <Input name="password" type="password" placeholder="Senha" />
+            <Input
+              name="email"
+              placeholder="E-mail"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <Input
+              name="password"
+              type="password"
+              placeholder="Senha"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
 
             <button type="submit">Entrar</button>
           </form>
