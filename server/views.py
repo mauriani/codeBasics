@@ -19,11 +19,11 @@ def home():
         horaInicio = data['horaInicio']
         horaFim = data['horaFim']
         discordLink = data['discordLink']
-        user_id = data['discordLink']
+        user_id = data['user_id']
 
         try:
             new_grupo = Grupo(titulo=titulo, descricao=descricao, minUserRanking=minUserRanking,
-                              daysOfWeek=daysOfWeek, horaInicio=horaInicio, horaFim=horaFim, discordLink=discordLink)
+                              daysOfWeek=daysOfWeek, horaInicio=horaInicio, horaFim=horaFim, discordLink=discordLink, user_id=user_id)
 
             db.session.add(new_grupo)
             db.session.commit()
@@ -44,11 +44,22 @@ def home():
     else:
         grupos = Grupo.query.order_by(Grupo.dataCriacao).all()
 
-        print(grupos)
+        grps = {}
+
+        for grupo in grupos:
+            grps[grupo.id] = {
+                'id': grupo.id,
+                'titulo': grupo.titulo,
+                'descricao': grupo.descricao,
+                'minUserRanking': grupo.minUserRanking,
+                'daysOfWeek': grupo.daysOfWeek,
+                'horaInicio': grupo.horaInicio,
+                'horaFim': grupo.horaFim,
+                'discordLink': grupo.discordLink,
+                'dataCriacao': grupo.dataCriacao,
+                'user_id': grupo.user_id
+            }
 
         return make_response(
-            jsonify(
-                message=grupos,
-                status=200
-            )
+            jsonify(json_list=grps)
         )
