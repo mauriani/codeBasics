@@ -68,8 +68,9 @@ def sign_in():
 
             user = getUserByEmail(email)
 
-            if user:
-                if check_password_hash(user.senha, senha):
+            if user is not None:
+                if (check_password_hash(user['senha'], senha)):
+                    del user['senha']
 
                     return make_response(
                         jsonify(

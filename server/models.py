@@ -1,10 +1,12 @@
 from . import db
 from sqlalchemy.sql import func
-from sqlalchemy import Column
-from sqlalchemy import Table
-from sqlalchemy import Integer
-from sqlalchemy import Float
-from sqlalchemy import String
+
+user_grupo = db.Table('user_grupo',
+                      db.Column('user_id', db.Integer,
+                                db.ForeignKey('user.id')),
+                      db.Column('grupo_id', db.Integer,
+                                db.ForeignKey('grupo.id'))
+                      )
 
 
 class User(db.Model):
@@ -13,7 +15,9 @@ class User(db.Model):
     email = db.Column(db.String(150), unique=True)
     senha = db.Column(db.String(150))
     ranking = db.Column(db.Float, default=3.0)
-    salas = db.relationship('Grupo', backref='user')
+    grupos = db.relationship(
+        'Grupo', secondary=user_grupo, backref='participantes')
+    owned_grupos = db.relationship('Grupo', backref='owner', lazy=True)
 
 
 class Grupo(db.Model):
@@ -26,4 +30,4 @@ class Grupo(db.Model):
     horaFim = db.Column(db.String(25))
     discordLink = db.Column(db.String(250))
     dataCriacao = db.Column(db.DateTime(timezone=True), default=func.now())
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    owner_id = db.Column(db.Integer, db.ForeignKey('user.id'))

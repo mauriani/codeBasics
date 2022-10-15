@@ -1,9 +1,8 @@
-from csv import excel
 from flask import Blueprint, render_template, request, flash, make_response, jsonify
-from .models import Grupo
+from .models import User, Grupo
 from . import db
-import json
-import datetime
+from .query import getGrupoById, getAllGrupos, getAllGruposByUser, getUserById
+from .custom_exception import CustomError
 
 routes = Blueprint('routes', __name__)
 
@@ -21,11 +20,11 @@ def grupo():
         horaInicio = data['horaInicio']
         horaFim = data['horaFim']
         discordLink = data['discordLink']
-        user_id = data['user_id']
+        owner_id = data['owner_id']
 
         try:
             new_grupo = Grupo(titulo=titulo, descricao=descricao, minUserRanking=minUserRanking,
-                              daysOfWeek=daysOfWeek, horaInicio=horaInicio, horaFim=horaFim, discordLink=discordLink, user_id=user_id)
+                              daysOfWeek=daysOfWeek, horaInicio=horaInicio, horaFim=horaFim, discordLink=discordLink, owner_id=owner_id)
 
             db.session.add(new_grupo)
             db.session.commit()
@@ -40,7 +39,7 @@ def grupo():
             return make_response(
                 jsonify(
                     message="Erro ao criar grupo.",
-                    status=200
+                    status=401
                 )
             )
     # RETORNA UM GRUPO ESPECIFICO
@@ -49,33 +48,22 @@ def grupo():
             data = request.json
             grupo_id = data['id']
 
-            grupo = Grupo.query.filter_by(id=grupo_id).first_or_404()
+            grupo = getGrupoById(grupo_id)
 
             if grupo is None:
-                raise Exception('Grupo não encontrado')
+                raise CustomError('Grupo não encontrado', 401)
 
-            grp = {
-                'id': grupo.id,
-                'titulo': grupo.titulo,
-                'descricao': grupo.descricao,
-                'minUserRanking': grupo.minUserRanking,
-                'daysOfWeek': grupo.daysOfWeek,
-                'horaInicio': grupo.horaInicio,
-                'horaFim': grupo.horaFim,
-                'discordLink': grupo.discordLink,
-                'dataCriacao': grupo.dataCriacao,
-                'user_id': grupo.user_id
-            }
-
-            return make_response(
-                jsonify(json_list=grp)
-            )
-
-        except Exception as error:
             return make_response(
                 jsonify(
-                    message=repr(error),
-                    status=404
+                    grupo=grupo
+                )
+            )
+
+        except CustomError as error:
+            return make_response(
+                jsonify(
+                    message=error.message,
+                    status=401
                 )
             )
 
@@ -84,31 +72,57 @@ def grupo():
 # RETORNA TODOS OS GRUPOS
 def grupos():
     try:
-        grupos = Grupo.query.order_by(Grupo.dataCriacao).all()
-
-        grps = {}
-
-        for grupo in grupos:
-            grps[grupo.id] = {
-                'id': grupo.id,
-                'titulo': grupo.titulo,
-                'descricao': grupo.descricao,
-                'minUserRanking': grupo.minUserRanking,
-                'daysOfWeek': grupo.daysOfWeek,
-                'horaInicio': grupo.horaInicio,
-                'horaFim': grupo.horaFim,
-                'discordLink': grupo.discordLink,
-                'dataCriacao': grupo.dataCriacao,
-                'user_id': grupo.user_id
-            }
+        grupos = getAllGrupos()
 
         return make_response(
-            jsonify(json_list=grps)
+            jsonify(grupos=grupos)
         )
     except:
         return make_response(
             jsonify(
                 message="Erro ao consultar os grupos.",
-                status=404
+                status=401
             )
         )
+
+
+@routes.route('/participante', methods=['GET', 'POST'])
+def participante():
+    # ADICIONAR USUARIO A UM GRUPO
+    if request.method == 'POST':
+        try:
+            data = request.json
+
+            user_id = data['user_id']
+            grupo_id = data['grupo_id']
+
+            user = User.query.filter_by(id=user_id).first()
+            grupo = Grupo.query.filter_by(id=grupo_id).first()
+
+            if user and grupo:
+                user.grupos.append(grupo)
+                db.session.commit()
+
+                return make_response(
+                    jsonify(
+                        message="Usuário adicionado ao grupo",
+                        status=200
+                    )
+                )
+            else:
+                raise CustomError("Usuário e/ou grupo inválido", 401)
+
+        except CustomError as error:
+            return make_response(
+                jsonify(
+                    message=error.message,
+                    status=error.status
+                )
+            )
+        except:
+            return make_response(
+                jsonify(
+                    message="Algo deu errado",
+                    status=500
+                )
+            )

@@ -1,16 +1,19 @@
+from flask import jsonify
 from flask_sqlalchemy import SQLAlchemy
 from .models import User, Grupo
 
 
 def getUserByEmail(email):
-    user = User.query.filter_by(email=email).First()
+    user = User.query.filter_by(email=email).first()
 
     if user:
         usr = {
             'id': user.id,
             'nome': user.nome,
             'email': user.email,
-            'ranking': user.ranking
+            'senha': user.senha,
+            'ranking': user.ranking,
+            'grupos': user.grupos
         }
 
         return usr
@@ -19,7 +22,7 @@ def getUserByEmail(email):
 
 
 def getUserById(id):
-    user = User.query.filter_by(id=id).First()
+    user = User.query.filter_by(id=id).first()
 
     if user:
         usr = {
@@ -35,7 +38,7 @@ def getUserById(id):
 
 
 def getGrupoById(id):
-    grupo = Grupo.query.filter_by(id=id).First()
+    grupo = Grupo.query.filter_by(id=id).first()
 
     if grupo:
         grp = {
@@ -48,7 +51,7 @@ def getGrupoById(id):
             'horaFim': grupo.horaFim,
             'discordLink': grupo.discordLink,
             'dataCriacao': grupo.dataCriacao,
-            'user_id': grupo.user_id
+            'owner_id': grupo.owner_id
         }
 
         return grp
@@ -56,8 +59,8 @@ def getGrupoById(id):
         return
 
 
-def getAllGruposByUser(user_id):
-    grupos = Grupo.query.filter_by(user_id=user_id).all()
+def getAllGruposByUser(owner_id):
+    grupos = Grupo.query.filter_by(owner_id=owner_id).all()
 
     if grupos:
         grps = {}
@@ -73,7 +76,7 @@ def getAllGruposByUser(user_id):
                 'horaFim': grupo.horaFim,
                 'discordLink': grupo.discordLink,
                 'dataCriacao': grupo.dataCriacao,
-                'user_id': grupo.user_id
+                'owner_id': grupo.owner_id
             }
 
         return grps
@@ -98,7 +101,7 @@ def getAllGrupos():
                 'horaFim': grupo.horaFim,
                 'discordLink': grupo.discordLink,
                 'dataCriacao': grupo.dataCriacao,
-                'user_id': grupo.user_id
+                'owner_id': grupo.owner_id
             }
 
         return grps
