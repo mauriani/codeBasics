@@ -7,6 +7,7 @@ from server.custom_exception import CustomError
 
 auth = Blueprint('auth', __name__)
 
+
 @auth.route('/sign-up', methods=['POST'])
 def sign_up():
     if request.method == 'POST':
