@@ -1,14 +1,16 @@
+from csv import excel
 from flask import Blueprint, render_template, request, flash, make_response, jsonify
 from .models import Grupo
 from . import db
 import json
 import datetime
 
-views = Blueprint('views', __name__)
+routes = Blueprint('routes', __name__)
 
 
-@views.route('/', methods=['GET', 'POST'])
-def home():
+@routes.route('/grupo', methods=['GET', 'POST'])
+def grupo():
+    # CRIA UM GRUPO
     if request.method == 'POST':
         data = request.json
 
@@ -41,7 +43,47 @@ def home():
                     status=200
                 )
             )
+    # RETORNA UM GRUPO ESPECIFICO
     else:
+        try:
+            data = request.json
+            grupo_id = data['id']
+
+            grupo = Grupo.query.filter_by(id=grupo_id).first_or_404()
+
+            if grupo is None:
+                raise Exception('Grupo não encontrado')
+
+            grp = {
+                'id': grupo.id,
+                'titulo': grupo.titulo,
+                'descricao': grupo.descricao,
+                'minUserRanking': grupo.minUserRanking,
+                'daysOfWeek': grupo.daysOfWeek,
+                'horaInicio': grupo.horaInicio,
+                'horaFim': grupo.horaFim,
+                'discordLink': grupo.discordLink,
+                'dataCriacao': grupo.dataCriacao,
+                'user_id': grupo.user_id
+            }
+
+            return make_response(
+                jsonify(json_list=grp)
+            )
+
+        except Exception as error:
+            return make_response(
+                jsonify(
+                    message=repr(error),
+                    status=404
+                )
+            )
+
+
+@routes.route('/grupos', methods=['GET'])
+# RETORNA TODOS OS GRUPOS
+def grupos():
+    try:
         grupos = Grupo.query.order_by(Grupo.dataCriacao).all()
 
         grps = {}
@@ -62,4 +104,11 @@ def home():
 
         return make_response(
             jsonify(json_list=grps)
+        )
+    except:
+        return make_response(
+            jsonify(
+                message="Erro ao consultar os grupos.",
+                status=404
+            )
         )
