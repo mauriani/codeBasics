@@ -1,10 +1,11 @@
-from flask import Blueprint, render_template, request, flash, redirect, url_for, make_response, jsonify
-from .models import User
+from flask import Blueprint, request, make_response, jsonify
+from server.models import User
 from werkzeug.security import generate_password_hash, check_password_hash
-from . import db
-from . import CustomError
-auth = Blueprint('auth', __name__)
+from server import db
+from server.query import getUserByEmail
+from server.custom_exception import CustomError
 
+auth = Blueprint('auth', __name__)
 
 @auth.route('/sign-up', methods=['POST'])
 def sign_up():
@@ -16,7 +17,7 @@ def sign_up():
             email = data['email']
             senha = data['senha']
 
-            user = User.query.filter_by(email=email).first()
+            user = getUserByEmail(email)
 
             # retorna erro caso o email já esteja cadastrado
             if (user is not None):
@@ -29,8 +30,11 @@ def sign_up():
             db.session.add(new_user)
             db.session.commit()
 
+            user = getUserByEmail(email)
+
             return make_response(
                 jsonify(
+                    usuario=user,
                     message="Usuário criado",
                     status=200
                 )
@@ -52,8 +56,8 @@ def sign_up():
             )
 
 
-@ auth.route('/sign-in', methods=['POST'])
-def sign_up():
+@auth.route('/sign-in', methods=['POST'])
+def sign_in():
     if request.method == 'POST':
         try:
             data = request.json
@@ -61,12 +65,14 @@ def sign_up():
             email = data['email']
             senha = data['senha']
 
-            user = User.query.filter_by(email=email).first()
+            user = getUserByEmail(email)
 
             if user:
                 if check_password_hash(user.senha, senha):
+
                     return make_response(
                         jsonify(
+                            usuario=user,
                             message="Usuário logado com sucesso",
                             status=200
                         )
