@@ -1444,6 +1444,11 @@ react-is@^16.7.0:
   resolved "https://registry.npmjs.org/react-is/-/react-is-16.13.1.tgz"
   integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
 
+react-loading@^2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/react-loading/-/react-loading-2.0.3.tgz#e8138fb0c3e4674e481b320802ac7048ae14ffb9"
+  integrity sha512-Vdqy79zq+bpeWJqC+xjltUjuGApyoItPgL0vgVfcJHhqwU7bAMKzysfGW/ADu6i0z0JiOCRJjo+IkFNkRNbA3A==
+
 react-refresh@^0.14.0:
   version "0.14.0"
   resolved "https://registry.npmjs.org/react-refresh/-/react-refresh-0.14.0.tgz"
@@ -1695,6 +1700,11 @@ util-deprecate@^1.0.2:
   version "1.0.2"
   resolved "https://registry.npmjs.org/util-deprecate/-/util-deprecate-1.0.2.tgz"
   integrity sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==
+
+uuid@^9.0.0:
+  version "9.0.0"
+  resolved "https://registry.yarnpkg.com/uuid/-/uuid-9.0.0.tgz#592f550650024a38ceb0c562f2f6aa435761efb5"
+  integrity sha512-MXcSTerfPa4uqyzStbRoTgt5XIe3x5+42+q1sDuy3R5MDk66URdLMOZe5aPX/SQd+kuYAh0FdP/pO28IkQyTeg==
 
 vite@^3.0.7:
   version "3.1.0"

@@ -18,6 +18,8 @@ export const theme = {
     yellow_light: "#F1E9C9",
     yellow: "#DBAC2C",
     yellow_dark: "#C47F17",
+
+    red: "#F47174",
   },
 
   font_family: {
