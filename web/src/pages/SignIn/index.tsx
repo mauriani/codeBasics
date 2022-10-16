@@ -1,14 +1,15 @@
-import { useState, useEffect, FormEvent } from "react";
+import { useState, useEffect, FormEvent, useContext } from "react";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
-import { SignIn as IconSignIn } from "phosphor-react";
 import "react-toastify/dist/ReactToastify.css";
+import { SignIn as IconSignIn } from "phosphor-react";
+
 import { Link, useNavigate } from "react-router-dom";
 
 import { Input } from "../../components/Input";
 import { Container, Content, Logo } from "./styles";
 
-import { api } from "../../services/api";
+import { UserContext } from "../../hooks/UserContext";
 
 interface Iuser {
   id: number;
@@ -20,7 +21,10 @@ interface Iuser {
 export function SignIn() {
   const navigate = useNavigate();
 
-  const [users, setUsers] = useState<Iuser[]>([]);
+  const { user, authentication } = useContext(UserContext);
+
+  console.log(user, "signin");
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -37,20 +41,7 @@ export function SignIn() {
 
       await schema.validate({ email, password });
 
-      const response = await api.post("/sign-in", {
-        email: email,
-        senha: password,
-      });
-
-      const { status, message } = response.data;
-
-      if (status != 401) {
-        navigate("/");
-      } else {
-        toast.error(message, {
-          position: toast.POSITION.TOP_RIGHT,
-        });
-      }
+      authentication({ email, password });
     } catch (error) {
       if (error instanceof Yup.ValidationError) {
         toast.error(error.message, {

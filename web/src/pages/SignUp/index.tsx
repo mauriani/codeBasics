@@ -60,8 +60,6 @@ export function SignUp() {
         });
         return;
       }
-
-      console.log(response.data);
     } catch (error) {
       if (error instanceof Yup.ValidationError) {
         toast.error(error.message, {
@@ -119,7 +117,7 @@ export function SignUp() {
           </form>
         </div>
 
-        <Link to="/signin">
+        <Link to="/">
           <CaretLeft size={32} />
           Voltar para Login
         </Link>
