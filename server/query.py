@@ -53,6 +53,42 @@ def getUserById(id):
         return
 
 
+def getAllUsers():
+    users = User.query.order_by(User.ranking).all()
+
+    if users:
+        usrs = {}
+
+        for user in users:
+            grupos = {}
+
+            for grupo in user.grupos:
+                grupos[grupo.id] = {
+                    'id': grupo.id,
+                    'titulo': grupo.titulo,
+                    'minUserRanking': grupo.minUserRanking,
+                    'daysOfWeek': grupo.daysOfWeek,
+                    'horaInicio': grupo.horaInicio,
+                    'horaFim': grupo.horaFim,
+                    'discordLink': grupo.discordLink,
+                    'dataCriacao': grupo.dataCriacao,
+                    'owner_id': grupo.owner_id,
+                }
+
+            usrs[user.id] = {
+                'id': user.id,
+                'nome': user.nome,
+                'email': user.email,
+                'senha': user.senha,
+                'ranking': user.ranking,
+                'grupos': grupos
+            }
+        return usrs
+
+    else:
+        return
+
+
 def getGrupoById(id):
     grupo = Grupo.query.filter_by(id=id).first()
 

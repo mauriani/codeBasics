@@ -1,8 +1,9 @@
 from flask import Blueprint, render_template, request, flash, make_response, jsonify
 from .models import User, Grupo, Nota
 from . import db
-from .query import getGrupoById, getAllGrupos, getAllGruposByUser, getNotasByUserId, getUserById
+from .query import getGrupoById, getAllGrupos, getAllGruposByUser, getNotasByUserId, getUserById, getAllUsers
 from .custom_exception import CustomError
+from server import custom_exception
 
 routes = Blueprint('routes', __name__)
 
@@ -260,3 +261,24 @@ def avaliar():
                 status=error.status
             )
         )
+
+
+@routes.route('/usuarios', methods=['GET'])
+def usuarios():
+    if request.method == 'GET':
+        try:
+            users = getAllUsers()
+
+            return make_response(
+                jsonify(
+                    users=users,
+                    status=200
+                )
+            )
+        except:
+            return make_response(
+                jsonify(
+                    message="Ocorreu um problema",
+                    status=500
+                )
+            )
