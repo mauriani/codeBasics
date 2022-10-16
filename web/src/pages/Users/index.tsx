@@ -15,7 +15,7 @@ export function Users() {
   async function loadUsers() {
     const user = await localStorage.getItem("users");
 
-    setUsers(JSON.parse(user || ""));
+    //setUsers(JSON.parse(user || ""));
   }
 
   useEffect(() => {

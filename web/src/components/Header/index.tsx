@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { SignOut } from "phosphor-react";
 import { NavLink } from "react-router-dom";
-import { UserContext } from "../../hooks/UserContext";
+import { UserContext } from "../../context/UserContext";
 import { theme } from "../../styles/theme";
 
 import { Container, Logo, Routing, Link } from "./styles";
@@ -19,8 +19,8 @@ export function Header() {
       </Logo>
 
       <Routing>
-        <NavLink to="/">Salas</NavLink>
-        <NavLink to="users">Usuarios</NavLink>
+        <NavLink to="/dashboard">Salas</NavLink>
+        <NavLink to="/users">Usuarios</NavLink>
         <button onClick={handleLogout}>
           Sair
           <SignOut size={28} color={theme.colors.purple} />

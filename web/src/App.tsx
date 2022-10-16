@@ -3,14 +3,14 @@ import { ToastContainer } from "react-toastify";
 import { Router } from "./Router";
 import { GlobalStyle } from "./styles/global";
 
-import { UserContextProvider } from "./hooks/UserContext";
+import { AppProvider } from "./context/index";
 
 export function App() {
   return (
     <BrowserRouter>
-      <UserContextProvider>
+      <AppProvider>
         <Router />
-      </UserContextProvider>
+      </AppProvider>
       <GlobalStyle />
       <ToastContainer autoClose={3000} />
     </BrowserRouter>

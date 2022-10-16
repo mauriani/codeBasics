@@ -40,8 +40,6 @@ export function SignUp() {
 
       await schema.validate({ name, email, password });
 
-      console.log("opa");
-
       const response = await api.post("/sign-up", {
         nome: name,
         email: email,
@@ -53,7 +51,7 @@ export function SignUp() {
         toast.success(message, {
           position: toast.POSITION.TOP_RIGHT,
         });
-        navigate("/dashboard");
+        navigate("/");
       } else {
         toast.error(message, {
           position: toast.POSITION.TOP_RIGHT,

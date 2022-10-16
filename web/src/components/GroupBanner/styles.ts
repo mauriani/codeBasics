@@ -6,7 +6,8 @@ export const Container = styled.div`
   flex-shrink: 1;
   flex-direction: column;
   padding: 1rem;
-  max-width: 50rem;
+
+  width: 50rem;
   height: auto;
   background: ${theme.colors.base_card};
   border: 2px solid ${theme.colors.base_card};
@@ -85,6 +86,8 @@ export const DeleteButton = styled.button`
   display: flex;
   align-items: center;
   gap: 12px;
+
+  margin-left: 8px;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
 

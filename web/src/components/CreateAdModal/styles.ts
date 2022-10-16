@@ -27,6 +27,10 @@ export const ModalContent = styled(Dialog.Content)`
   transform: translateX(-50%);
   transform: translateY(-50%);
 
+  left: 50%;
+
+  top: 50%;
+
   form {
     margin-top: 2rem;
     flex-direction: column;

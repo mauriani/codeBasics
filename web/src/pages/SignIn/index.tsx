@@ -9,7 +9,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Input } from "../../components/Input";
 import { Container, Content, Logo } from "./styles";
 
-import { UserContext } from "../../hooks/UserContext";
+import { UserContext } from "../../context/UserContext";
 
 interface Iuser {
   id: number;
@@ -19,11 +19,7 @@ interface Iuser {
 }
 
 export function SignIn() {
-  const navigate = useNavigate();
-
   const { user, authentication } = useContext(UserContext);
-
-  console.log(user, "signin");
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

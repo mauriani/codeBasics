@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 
 import axios from "axios";
 
@@ -9,51 +9,43 @@ import { CreateBanner } from "../../components/CreateBanner";
 import { CreateAdModal } from "../../components/CreateAdModal";
 import { Header } from "../../components/Header";
 import { Container } from "./styles";
-import { api } from "../../services/api";
+
+import { GroupContext, GroupProps } from "../../context/GroupContext";
+import { Loading } from "../../components/Loading";
 
 export function Home() {
+  const { group, loading } = useContext(GroupContext);
+
   return (
-    <Container>
-      <Header />
+    <>
+      {loading ? (
+        <Loading />
+      ) : (
+        <Container>
+          <Header />
 
-      <Dialog.Root>
-        <CreateBanner />
+          <Dialog.Root>
+            <CreateBanner />
 
-        <CreateAdModal />
-      </Dialog.Root>
+            <CreateAdModal />
+          </Dialog.Root>
 
-      <footer>
-        <GroupBanner
-          title="React native com typescript"
-          description="Lorem ipsum dolor sit amet, consectetur adip, Lorem ipsum dolor sit amet, consectetur adip, Lorem ipsum dolor sit amet, consectetur adip,"
-          bannerUrl="https://avatars.githubusercontent.com/u/59673868?v=4"
-        />
-        <GroupBanner
-          title="React native com typescript"
-          description="Lorem ipsum dolor sit amet, consectetur adip, Lorem ipsum dolor sit amet, consectetur adip, Lorem ipsum dolor sit amet, consectetur adip,"
-          bannerUrl="https://avatars.githubusercontent.com/u/59673868?v=4"
-        />
-        <GroupBanner
-          title="React native com typescript"
-          description="Lorem ipsum dolor sit amet, consectetur adip, Lorem ipsum dolor sit amet, consectetur adip, Lorem ipsum dolor sit amet, consectetur adip,"
-          bannerUrl="https://avatars.githubusercontent.com/u/59673868?v=4"
-        />
-        <GroupBanner
-          title="React native com typescript"
-          description="Lorem ipsum dolor sit amet, consectetur adip, Lorem ipsum dolor sit amet, consectetur adip, Lorem ipsum dolor sit amet, consectetur adip,"
-          bannerUrl="https://avatars.githubusercontent.com/u/59673868?v=4"
-        />
-        <GroupBanner
-          title="React native com typescript"
-          description="Lorem ipsum dolor sit amet, consectetur adip, Lorem ipsum dolor sit amet, consectetur adip, Lorem ipsum dolor sit amet, consectetur adip,"
-          bannerUrl="https://avatars.githubusercontent.com/u/59673868?v=4"
-        />
-        <GroupBanner
-          title="React native com typescript"
-          description="Lorem ipsum dolor sit amet, consectetur adip, Lorem ipsum dolor sit amet, consectetur adip, Lorem ipsum dolor sit amet, consectetur adip,"
-          bannerUrl="https://avatars.githubusercontent.com/u/59673868?v=4"
-        />
-      </footer>
-    </Container>
+          <footer>
+            {Object.values(group).map((item, key) => {
+              return (
+                <div key={key}>
+                  <GroupBanner
+                    title={item?.titulo}
+                    description={item?.descricao}
+                    id={item?.id}
+                    bannerUrl="https://avatars.githubusercontent.com/u/59673868?v=4"
+                  />
+                </div>
+              );
+            })}
+          </footer>
+        </Container>
+      )}
+    </>
   );
 }

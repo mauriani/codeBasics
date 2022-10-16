@@ -6,9 +6,9 @@ interface GroupContextProviderProps {
   children: React.ReactNode;
 }
 
-interface GroupProps {
+export interface GroupProps {
   id: number;
-  title: string;
+  titulo: string;
   descricao: string;
   minUserRanking: number;
   daysOfWeek: string[];
@@ -22,38 +22,60 @@ interface GroupContextProps {
   loadGroups: () => void;
   joinGroup: () => void;
   deleteGroup: (id: number) => void;
+  loading: boolean;
 }
 
 export const GroupContext = createContext({} as GroupContextProps);
 
 export function GroupContextProvider({ children }: GroupContextProviderProps) {
   const [group, setGroup] = useState<GroupProps[]>([]);
+  const [loading, setLoading] = useState(true);
 
   const navigate = useNavigate();
 
   async function loadGroups() {
-    const group = await api.get("/grupos");
-
-    setGroup(group);
+    try {
+      setLoading(true);
+      const response = await api.get("/grupos");
+      const { grupos } = response.data;
+      setGroup(grupos);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoading(false);
+    }
   }
 
-  function joinGroup(ranking: number) {
-    group.map((group) => group.minUserRanking >= ranking && navigate("/chat"));
+  function joinGroup() {
+    // Object.values(group).map(
+    //   (group) => group.minUserRanking >= ranking && navigate("/chat")
+    // );
+
+    navigate("/chat");
   }
 
-  function deleteGroup(id: number) {
-    const removeGroup = group.filter((group) => group.id !== id);
+  async function deleteGroup(id: number) {
+    try {
+      setLoading(true);
+      await api.delete("/grupo", {
+        data: { grupo_id: id },
+      });
 
-    setGroup([...group, removeGroup]);
+      loadGroups();
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoading(false);
+    }
   }
 
   useEffect(() => {
     loadGroups();
-  }, [group]);
+  }, []);
 
   return (
     <GroupContext.Provider
-      value={{ group, loadGroups, joinGroup, deleteGroup }}
+      value={{ group, loadGroups, joinGroup, deleteGroup, loading }}
     >
       {children}
     </GroupContext.Provider>

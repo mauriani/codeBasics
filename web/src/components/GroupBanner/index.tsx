@@ -5,21 +5,20 @@ import { GroupContext } from "../../context/GroupContext";
 import { useContext } from "react";
 
 interface GroupBannerProps {
-  title: string;
+  title: string | undefined;
   description: string;
   bannerUrl: string;
+  id: number;
 }
 
 export function GroupBanner({
   title,
   description,
   bannerUrl,
+  id,
 }: GroupBannerProps) {
-  const { joinGroup } = useContext(GroupContext);
+  const { deleteGroup, joinGroup } = useContext(GroupContext);
 
-  function join() {
-    joinGroup();
-  }
   return (
     <Container>
       <header>
@@ -34,11 +33,11 @@ export function GroupBanner({
         <span>{description}</span>
       </main>
       <ButtonContainer>
-        <JoinButton onClick={join}>
+        <JoinButton onClick={() => joinGroup()}>
           Ingressar
           <Chat weight="fill" />
         </JoinButton>
-        <DeleteButton>
+        <DeleteButton onClick={() => deleteGroup(id)}>
           <Trash />
           Deletar Grupo
         </DeleteButton>

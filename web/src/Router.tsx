@@ -6,16 +6,14 @@ import { SignIn } from "./pages/SignIn";
 import { SignUp } from "./pages/SignUp";
 import { Chat } from "./pages/Chat";
 
-import { UserContext } from "./hooks/UserContext";
+import { UserContext } from "./context/UserContext";
 
 export function Router() {
   const { user, loading } = useContext(UserContext);
 
-  const { id } = user;
-
   return (
     <>
-      {id != null ? (
+      {/* {id != null ? (
         <Routes>
           <Route path="/dashboard" element={<Home />} />
           <Route path="/users" element={<Users />} />
@@ -26,7 +24,14 @@ export function Router() {
           <Route path="/" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
         </Routes>
-      )}
+      )} */}
+      <Routes>
+        <Route path="/" element={<SignIn />} />
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/dashboard" element={<Home />} />
+        <Route path="/users" element={<Users />} />
+        <Route path="/chat" element={<Chat />} />
+      </Routes>
     </>
   );
 }
