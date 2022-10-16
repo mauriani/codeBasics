@@ -1,42 +1,37 @@
+import { useEffect, useState } from "react";
 import { Header } from "../../components/Header";
 import { UserCard } from "../../components/UserCard";
 import { Container, Content } from "./styles";
 
+interface UserProps {
+  name: string;
+  email: string;
+  password: string;
+}
+
 export function Users() {
+  const [users, setUsers] = useState<UserProps[]>([]);
+
+  async function loadUsers() {
+    const user = await localStorage.getItem("users");
+
+    setUsers(JSON.parse(user || ""));
+  }
+
+  useEffect(() => {
+    loadUsers();
+  }, [users]);
   return (
     <Container>
       <Header />
       <Content>
-        <UserCard
-          name="Othavio Rubim"
-          email="orubim37@gmail.com"
-          bannerUrl="https://avatars.githubusercontent.com/u/59673868?v=4"
-        />
-        <UserCard
-          name="Othavio Rubim"
-          email="orubim37@gmail.com"
-          bannerUrl="https://avatars.githubusercontent.com/u/59673868?v=4"
-        />
-        <UserCard
-          name="Othavio Rubim"
-          email="orubim37@gmail.com"
-          bannerUrl="https://avatars.githubusercontent.com/u/59673868?v=4"
-        />
-        <UserCard
-          name="Othavio Rubim"
-          email="orubim37@gmail.com"
-          bannerUrl="https://avatars.githubusercontent.com/u/59673868?v=4"
-        />
-        <UserCard
-          name="Othavio Rubim"
-          email="orubim37@gmail.com"
-          bannerUrl="https://avatars.githubusercontent.com/u/59673868?v=4"
-        />
-        <UserCard
-          name="Othavio Rubim"
-          email="orubim37@gmail.com"
-          bannerUrl="https://avatars.githubusercontent.com/u/59673868?v=4"
-        />
+        {users.map((user) => (
+          <UserCard
+            name={user.name}
+            email={user.email}
+            bannerUrl={`https://ui-avatars.com/api/?name=${user.name}`}
+          />
+        ))}
       </Content>
     </Container>
   );

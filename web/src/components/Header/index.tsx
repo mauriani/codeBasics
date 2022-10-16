@@ -1,8 +1,7 @@
 import { SignOut } from "phosphor-react";
-import { NavLink } from "react-router-dom";
 import { theme } from "../../styles/theme";
 
-import { Container, Logo, Routing } from "./styles";
+import { Container, Logo, Routing, Link } from "./styles";
 
 export function Header() {
   return (
@@ -12,8 +11,21 @@ export function Header() {
       </Logo>
 
       <Routing>
-        <NavLink to="/">Salas</NavLink>
-        <NavLink to="users">Usuarios</NavLink>
+        <Link
+          to="/dashboard"
+          style={({ isActive }) =>
+            isActive
+              ? {
+                  borderBottom: `2px solid ${theme.colors.purple_dark}`,
+                }
+              : {
+                  borderBottom: `2px solid ${theme.colors.background}`,
+                }
+          }
+        >
+          Salas
+        </Link>
+        <Link to="/users">Usuarios</Link>
         <button>
           Sair
           <SignOut size={28} color={theme.colors.purple} />

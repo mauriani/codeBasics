@@ -8,10 +8,12 @@ export const Container = styled.div`
 `;
 
 export const Content = styled.div`
+  margin-right: 20px;
+  margin-left: 20px;
   margin-top: 40px;
-  width: 64rem;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 32px;
+  max-width: 90rem;
+  height: auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 20px;
 `;

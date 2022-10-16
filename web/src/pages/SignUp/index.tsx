@@ -119,7 +119,7 @@ export function SignUp() {
           </form>
         </div>
 
-        <Link to="/signin">
+        <Link to="/">
           <CaretLeft size={32} />
           Voltar para Login
         </Link>

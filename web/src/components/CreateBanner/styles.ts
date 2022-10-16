@@ -33,9 +33,9 @@ export const Trigger = styled(Dialog.Trigger)`
   align-items: center;
   gap: 12px;
   cursor: pointer;
-
+  transition: all 0.2s ease-in-out;
   &:hover {
-    background: ${theme.colors.purple};
-    border: 1px solid ${theme.colors.purple};
+    background: ${theme.colors.purple_dark};
+    border: 1px solid ${theme.colors.purple_dark};
   }
 `;

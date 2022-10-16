@@ -1,6 +1,8 @@
-import { Star } from "phosphor-react";
+import { Star, Chat, Trash } from "phosphor-react";
 import { theme } from "../../styles/theme";
-import { Container } from "./styles";
+import { Container, JoinButton, DeleteButton, ButtonContainer } from "./styles";
+import { GroupContext } from "../../context/GroupContext";
+import { useContext } from "react";
 
 interface GroupBannerProps {
   title: string;
@@ -13,6 +15,11 @@ export function GroupBanner({
   description,
   bannerUrl,
 }: GroupBannerProps) {
+  const { joinGroup } = useContext(GroupContext);
+
+  function join() {
+    joinGroup();
+  }
   return (
     <Container>
       <header>
@@ -22,10 +29,20 @@ export function GroupBanner({
         <img src={bannerUrl} />
       </header>
 
-      <div className="w-full pt-16 pb-4 px-4 bg-game-gradient absolute bottom-0 left-0 right-0">
-        <strong className="font-bold text-white block">{title}</strong>
-        <span className="text-zinc-300 text-sm block">{description}</span>
-      </div>
+      <main>
+        <strong>{title}</strong>
+        <span>{description}</span>
+      </main>
+      <ButtonContainer>
+        <JoinButton onClick={join}>
+          Ingressar
+          <Chat weight="fill" />
+        </JoinButton>
+        <DeleteButton>
+          <Trash />
+          Deletar Grupo
+        </DeleteButton>
+      </ButtonContainer>
     </Container>
   );
 }
