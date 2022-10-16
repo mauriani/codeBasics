@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { theme } from "../../styles/theme";
 
-export const Container = styled.button`
+export const Container = styled.div`
   display: flex;
   flex-shrink: 1;
   flex-direction: column;
@@ -12,7 +12,6 @@ export const Container = styled.button`
   border: 2px solid ${theme.colors.base_card};
   border-radius: 6px;
   transition: all ease-in-out 0.2s;
-  cursor: pointer;
 
   &:hover {
     border: 2px solid ${theme.colors.purple};
@@ -36,7 +35,7 @@ export const Container = styled.button`
     }
   }
 
-  div {
+  main {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -49,5 +48,49 @@ export const Container = styled.button`
     span {
       text-align: left;
     }
+  }
+`;
+
+export const ButtonContainer = styled.div`
+  width: 100%;
+  margin-top: 1rem;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+`;
+
+export const JoinButton = styled.button`
+  padding: 12px 16px;
+  background: ${theme.colors.purple};
+  border: 1px solid ${theme.colors.purple};
+  color: ${theme.colors.white};
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  &:hover {
+    background: ${theme.colors.purple_dark};
+    border: 1px solid ${theme.colors.purple_dark};
+  }
+`;
+
+export const DeleteButton = styled.button`
+  padding: 12px 16px;
+  background: ${theme.colors.purple};
+  border: 1px solid ${theme.colors.purple};
+  color: ${theme.colors.white};
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    background: ${theme.colors.white};
+    border: 1px solid ${theme.colors.red};
+    color: ${theme.colors.red};
   }
 `;

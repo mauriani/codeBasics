@@ -4,6 +4,7 @@ import { Home } from "./pages/Home";
 import { Users } from "./pages/Users";
 import { SignIn } from "./pages/SignIn";
 import { SignUp } from "./pages/SignUp";
+import { Chat } from "./pages/Chat";
 
 import { UserContext } from "./hooks/UserContext";
 
@@ -18,6 +19,7 @@ export function Router() {
         <Routes>
           <Route path="/dashboard" element={<Home />} />
           <Route path="/users" element={<Users />} />
+          <Route path="/chat" element={<Chat />} />
         </Routes>
       ) : (
         <Routes>

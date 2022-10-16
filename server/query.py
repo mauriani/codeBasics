@@ -1,7 +1,7 @@
 from flask import jsonify
 from flask_sqlalchemy import SQLAlchemy
 
-from .models import User, Grupo
+from .models import User, Grupo, Nota
 
 
 def getUserByEmail(email):
@@ -154,5 +154,25 @@ def getAllGrupos():
             }
 
         return grps
+    else:
+        return
+
+
+def getNotasByUserId(id):
+    notas = Nota.query.filter_by(user_id=id).all()
+
+    notas_list = {}
+
+    if notas:
+        for nota in notas:
+            notas_list[nota.id] = {
+                'id': nota.id,
+                'user_id': nota.user_id,
+                'avaliador_id': nota.avaliador_id,
+                'nota': nota.nota
+            }
+
+        return notas_list
+
     else:
         return

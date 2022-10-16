@@ -18,6 +18,7 @@ class User(db.Model):
     grupos = db.relationship(
         'Grupo', secondary=user_grupo, backref='participantes')
     owned_grupos = db.relationship('Grupo', backref='owner', lazy=True)
+    notas = db.relationship('Nota', backref='usuario', lazy=True)
 
 
 class Grupo(db.Model):
@@ -31,3 +32,10 @@ class Grupo(db.Model):
     discordLink = db.Column(db.String(250))
     dataCriacao = db.Column(db.DateTime(timezone=True), default=func.now())
     owner_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+
+
+class Nota(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    avaliador_id = db.Column(db.Integer)
+    nota = db.Column(db.Float)

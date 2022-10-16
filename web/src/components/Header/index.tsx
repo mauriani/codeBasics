@@ -4,7 +4,7 @@ import { NavLink } from "react-router-dom";
 import { UserContext } from "../../hooks/UserContext";
 import { theme } from "../../styles/theme";
 
-import { Container, Logo, Routing } from "./styles";
+import { Container, Logo, Routing, Link } from "./styles";
 
 export function Header() {
   const { logout } = useContext(UserContext);

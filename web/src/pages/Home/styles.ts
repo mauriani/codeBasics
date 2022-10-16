@@ -8,8 +8,11 @@ export const Container = styled.div`
   align-items: center;
   justify-content: center;
 
-  > div {
+  footer {
     display: flex;
+    justify-content: center;
+    flex-shrink: 1;
+    flex-wrap: wrap;
     padding: 0 100px;
     gap: 1rem;
   }
