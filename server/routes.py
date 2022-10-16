@@ -1,9 +1,8 @@
-from flask import Blueprint, render_template, request, flash, make_response, jsonify
-from .models import User, Grupo, Nota
-from . import db
-from .query import getGrupoById, getAllGrupos, getAllGruposByUser, getNotasByUserId, getUserById, getAllUsers
-from .custom_exception import CustomError
-from server import custom_exception
+from flask import Blueprint, request, make_response, jsonify
+from server.models import User, Grupo, Nota
+from server import db
+from server.query import getGrupoById, getAllGrupos, getNotasByUserId, getAllUsers
+from server.custom_exception import CustomError
 
 routes = Blueprint('routes', __name__)
 
