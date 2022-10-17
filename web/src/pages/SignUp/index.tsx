@@ -46,6 +46,8 @@ export function SignUp() {
         senha: password,
       });
 
+      console.log(response.data);
+
       const { status, message } = response.data;
       if (status == 200) {
         toast.success(message, {

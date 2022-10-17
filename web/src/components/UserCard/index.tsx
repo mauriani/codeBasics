@@ -6,9 +6,10 @@ interface UserCardProps {
   name: string;
   email: string;
   bannerUrl: string;
+  ranking: number;
 }
 
-export function UserCard({ name, email, bannerUrl }: UserCardProps) {
+export function UserCard({ name, email, ranking, bannerUrl }: UserCardProps) {
   return (
     <Container>
       <div>
@@ -17,7 +18,8 @@ export function UserCard({ name, email, bannerUrl }: UserCardProps) {
       </div>
       <div>
         <h1>
-          Ranking 5 <Star size={16} weight="fill" color={theme.colors.yellow} />
+          Ranking {ranking}{" "}
+          <Star size={16} weight="fill" color={theme.colors.yellow} />
         </h1>
         <img src={bannerUrl} />
       </div>

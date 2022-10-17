@@ -19,6 +19,10 @@ deactivate
 
 ```markdown
 pip install Flask
+
+pip install -U flask-cors
+
+pip install -U Flask-SQLAlchemy
 ```
 
 ### **Gerando lista de dependências do projeto**

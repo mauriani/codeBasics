@@ -1,35 +1,45 @@
 import { useEffect, useState } from "react";
+import { string } from "yup";
 import { Header } from "../../components/Header";
 import { UserCard } from "../../components/UserCard";
+import { api } from "../../services/api";
 import { Container, Content } from "./styles";
 
 interface UserProps {
-  name: string;
+  id: number;
+  nome: string;
   email: string;
-  password: string;
+  ranking: number;
 }
 
 export function Users() {
   const [users, setUsers] = useState<UserProps[]>([]);
 
   async function loadUsers() {
-    const user = await localStorage.getItem("users");
+    const response = await api.get("/usuarios");
 
-    //setUsers(JSON.parse(user || ""));
+    const { users } = response.data;
+
+    if (users) {
+      setUsers(users);
+    } else {
+      setUsers([]);
+    }
   }
 
   useEffect(() => {
     loadUsers();
-  }, [users]);
+  }, []);
   return (
     <Container>
       <Header />
       <Content>
-        {users.map((user) => (
+        {Object.values(users).map((user) => (
           <UserCard
-            name={user.name}
+            name={user.nome}
             email={user.email}
-            bannerUrl={`https://ui-avatars.com/api/?name=${user.name}`}
+            ranking={user.ranking}
+            bannerUrl={`https://ui-avatars.com/api/?name=${user.nome}`}
           />
         ))}
       </Content>

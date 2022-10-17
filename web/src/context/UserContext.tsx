@@ -70,7 +70,7 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
   function loadDadosUser() {
     const dados = localStorage.getItem(key);
 
-    if (dados) {
+    if (dados != undefined) {
       setData(JSON.parse(dados));
     } else {
       setData([]);
@@ -89,9 +89,6 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
     }
   }
 
-  useEffect(() => {
-    loadDadosUser();
-  }, []);
   return (
     <UserContext.Provider
       value={{

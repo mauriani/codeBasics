@@ -9,22 +9,10 @@ import { Chat } from "./pages/Chat";
 import { UserContext } from "./context/UserContext";
 
 export function Router() {
-  const { user, loading } = useContext(UserContext);
+  // const { user, loading } = useContext(UserContext);
 
   return (
     <>
-      {/* {id != null ? (
-        <Routes>
-          <Route path="/dashboard" element={<Home />} />
-          <Route path="/users" element={<Users />} />
-          <Route path="/chat" element={<Chat />} />
-        </Routes>
-      ) : (
-        <Routes>
-          <Route path="/" element={<SignIn />} />
-          <Route path="/signup" element={<SignUp />} />
-        </Routes>
-      )} */}
       <Routes>
         <Route path="/" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
