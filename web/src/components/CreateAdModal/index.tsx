@@ -66,12 +66,14 @@ export function CreateAdModal() {
     //   setGames(response.data);
     // });
   }, []);
+
+  console.log(weekDays);
   return (
     <Container>
       <Overlay />
 
       <ModalContent>
-        <Title>Publique um anuncio</Title>
+        <Title>Criar grupo</Title>
 
         <form onSubmit={handleSubmit(handleCreateAd)}>
           <Subject>
@@ -84,7 +86,7 @@ export function CreateAdModal() {
           <Description>
             <label htmlFor="description">Descricao</label>
             <textarea
-              placeholder="Descreva brevemente um pouco sobre o assunto"
+              placeholder="Descreva o assunto"
               {...register("description")}
             />
           </Description>
@@ -99,7 +101,7 @@ export function CreateAdModal() {
               />
             </div>
             <div>
-              <label htmlFor="discord">Discord</label>
+              <label htmlFor="discord">Qual discord de acesso?</label>
               <Input
                 id="discord"
                 placeholder="Link do grupo aqui"
@@ -120,63 +122,106 @@ export function CreateAdModal() {
               >
                 <Button
                   value="0"
-                  className={`w-8 h-8 rounded  ${
-                    weekDays.includes("0") ? "bg-violet-500" : "bg-zinc-900"
-                  }`}
                   title="Domingo"
+                  style={{
+                    background: weekDays.includes("0")
+                      ? theme.colors.base_input
+                      : theme.colors.purple,
+
+                    color: weekDays.includes("0")
+                      ? theme.colors.base_text
+                      : theme.colors.white,
+                  }}
                 >
                   D
                 </Button>
                 <Button
                   value="1"
-                  className={`w-8 h-8 rounded  ${
-                    weekDays.includes("1") ? "bg-violet-500" : "bg-zinc-900"
-                  }`}
+                  style={{
+                    background: weekDays.includes("1")
+                      ? theme.colors.base_input
+                      : theme.colors.purple,
+
+                    color: weekDays.includes("1")
+                      ? theme.colors.base_text
+                      : theme.colors.white,
+                  }}
                   title="Segunda"
                 >
                   S
                 </Button>
+
                 <Button
                   value="2"
-                  className={`w-8 h-8 rounded  ${
-                    weekDays.includes("2") ? "bg-violet-500" : "bg-zinc-900"
-                  }`}
+                  style={{
+                    background: weekDays.includes("2")
+                      ? theme.colors.base_input
+                      : theme.colors.purple,
+
+                    color: weekDays.includes("2")
+                      ? theme.colors.base_text
+                      : theme.colors.white,
+                  }}
                   title="Terca"
                 >
                   T
                 </Button>
                 <Button
                   value="3"
-                  className={`w-8 h-8 rounded  ${
-                    weekDays.includes("3") ? "bg-violet-500" : "bg-zinc-900"
-                  }`}
+                  style={{
+                    background: weekDays.includes("3")
+                      ? theme.colors.base_input
+                      : theme.colors.purple,
+
+                    color: weekDays.includes("3")
+                      ? theme.colors.base_text
+                      : theme.colors.white,
+                  }}
                   title="Quarta"
                 >
                   Q
                 </Button>
                 <Button
                   value="4"
-                  className={`w-8 h-8 rounded  ${
-                    weekDays.includes("4") ? "bg-violet-500" : "bg-zinc-900"
-                  }`}
+                  style={{
+                    background: weekDays.includes("4")
+                      ? theme.colors.base_input
+                      : theme.colors.purple,
+
+                    color: weekDays.includes("4")
+                      ? theme.colors.base_text
+                      : theme.colors.white,
+                  }}
                   title="Quinta"
                 >
                   Q
                 </Button>
                 <Button
                   value="5"
-                  className={`w-8 h-8 rounded  ${
-                    weekDays.includes("5") ? "bg-violet-500" : "bg-zinc-900"
-                  }`}
+                  style={{
+                    background: weekDays.includes("5")
+                      ? theme.colors.base_input
+                      : theme.colors.purple,
+
+                    color: weekDays.includes("5")
+                      ? theme.colors.base_text
+                      : theme.colors.white,
+                  }}
                   title="Sexta"
                 >
                   S
                 </Button>
                 <Button
                   value="6"
-                  className={`w-8 h-8 rounded  ${
-                    weekDays.includes("6") ? "bg-violet-500" : "bg-zinc-900"
-                  }`}
+                  style={{
+                    background: weekDays.includes("6")
+                      ? theme.colors.base_input
+                      : theme.colors.purple,
+
+                    color: weekDays.includes("6")
+                      ? theme.colors.base_text
+                      : theme.colors.white,
+                  }}
                   title="Sabado"
                 >
                   S
@@ -197,18 +242,10 @@ export function CreateAdModal() {
           </DaysOfWeek>
 
           <Butttons>
-            <CloseModal
-              type="button"
-              className="bg-zinc-500 px-5 h-12 rounded-md font-semibold hover:bg-zinc-600"
-            >
-              Cancelar
-            </CloseModal>
-            <button
-              type="submit"
-              className="bg-violet-500 px-5 h-12 rounded-md font-semibold flex items-center gap-3 hover:bg-violet-600"
-            >
-              <GameController size={24} />
-              Encontrar Duo
+            <CloseModal type="button">Cancelar</CloseModal>
+            <button type="submit">
+              {/* <GameController size={24} /> */}
+              Salvar
             </button>
           </Butttons>
         </form>

@@ -15,18 +15,27 @@ export function Router() {
 
   return (
     <>
-      {id != null ? (
+      {/* {id != null ? (
         <Routes>
           <Route path="/dashboard" element={<Home />} />
           <Route path="/users" element={<Users />} />
           <Route path="/chat" element={<Chat />} />
+          
         </Routes>
       ) : (
         <Routes>
           <Route path="/" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
         </Routes>
-      )}
+      )} */}
+
+      <Routes>
+        <Route path="/" element={<SignIn />} />
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/dashboard" element={<Home />} />
+        <Route path="/users" element={<Users />} />
+        <Route path="/chat" element={<Chat />} />
+      </Routes>
     </>
   );
 }
