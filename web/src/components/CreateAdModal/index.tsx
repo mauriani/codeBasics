@@ -27,9 +27,10 @@ import { api } from "../../services/api";
 
 interface GroupProps {
   id: string;
-  title: string;
+  titulo: string;
   description: string;
-  ranking: number;
+  minUserRanking: number;
+  daysOfWeek: number;
   discord: string;
   hourStart: number;
   hourEnd: number;
@@ -42,10 +43,11 @@ export function CreateAdModal() {
   const { handleSubmit, register } = useForm<GroupProps>();
 
   async function handleCreateAd(data: GroupProps) {
+    console.log(data);
     // try {
     //   await api.post("/grupo", {
     //     id: 1,
-    //     title: data.title,
+    //     titulo: data.title,
     //     descricao: data.description,
     //     minUserRanking: data.ranking,
     //     daysOfWeek: weekDays.map(Number),
@@ -61,11 +63,6 @@ export function CreateAdModal() {
     // }
   }
 
-  useEffect(() => {
-    // api.post("/").then((response) => {
-    //   setGames(response.data);
-    // });
-  }, []);
   return (
     <Container>
       <Overlay />

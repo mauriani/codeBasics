@@ -47,10 +47,6 @@ export function GroupContextProvider({ children }: GroupContextProviderProps) {
   }
 
   function joinGroup() {
-    // Object.values(group).map(
-    //   (group) => group.minUserRanking >= ranking && navigate("/chat")
-    // );
-
     navigate("/chat");
   }
 
